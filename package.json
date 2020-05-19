@@ -1,0 +1,37 @@
+{
+  "name": "jx-component",
+  "version": "1.0.0",
+  "description": "A component based javascript framework using jQuery library.",
+  "main": "main.js",
+  "scripts": {
+    "build-dev": "browserify ./main.js -s jxComponent -o ./dist/jx-component.js -d -t [ babelify --presets [ @babel/preset-env ] --plugins [ @babel/plugin-proposal-class-properties ] ]",
+    "build-prod": "browserify ./main.js -s jxComponent -o ./dist/jx-component.min.js -t [ babelify --presets [ @babel/preset-env minify ] --plugins [ @babel/plugin-proposal-class-properties ] ]",
+    "build": "npm run build-dev && npm run build-prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elioth-coder/jx-component.git"
+  },
+  "keywords": [
+    "jx-component",
+    "jquery",
+    "component"
+  ],
+  "author": "elioth.coder@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.6",
+    "babel-preset-minify": "^0.5.1",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.1"
+  },
+  "bugs": {
+    "url": "https://github.com/elioth-coder/jx-component/issues"
+  },
+  "homepage": "https://github.com/elioth-coder/jx-component#readme"
+}
