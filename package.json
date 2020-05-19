@@ -1,6 +1,6 @@
 {
   "name": "jx-component",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A component based javascript framework using jQuery library.",
   "main": "main.js",
   "scripts": {
