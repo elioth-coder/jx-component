@@ -186,7 +186,7 @@ The code above will render something like:
 </div>
 ```
 
-Notice that the other `<h3>` elements were not rendered and only the `<h3>` element with the attribute `data-if="os==='windows'"` was rendered. That is the because `data-if` attribute will only render the element if the condition is `true`. 
+Notice that the other `<h3>` elements were not rendered and only the `<h3>` element with the attribute `data-if="os==='windows'"` was rendered, that is because `data-if` attribute will only render the element if the condition on the attribute is `true`. 
 If you only want to hide the other elements jxComponent has another attribute called `data-show`. The `data-show` attribute will show the element if the condition is `true` and hides it when it was `false`. 
 
 ### List Rendering
