@@ -4,15 +4,15 @@ A component based javascript framework using [jQuery](https://jquery.com) librar
 
 ## Download
 
-- [For development - CDN (from jsdelivr.com)](https://cdn.jsdelivr.net/npm/jx-component/dist/jx-component.js)
-- [For production - CDN (from jsdelivr.com)](https://cdn.jsdelivr.net/npm/jx-component/dist/jx-component.min.js)
+- [For development - CDN (from jsdelivr.com)](https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.js)
+- [For production - CDN (from jsdelivr.com)](https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.min.js)
 
 ## Installation
 
 Using sript:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/jx-component/dist/jx-component.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.js"></script>
 ```
 
 Using npm:
