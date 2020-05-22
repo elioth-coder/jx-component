@@ -54,8 +54,8 @@ const { ComponentConstructor } = require("jx-component");
 ```javascript
 const NameCountryComponent = ComponentConstructor.create({
   data: {
-    name: "John",
-    country: "USA",
+    name: "Christian",
+    country: "Philippines",
   },
   template: `
         <h1>Hi, I'm {{ name }} from the {{ country }}.</h1>
@@ -72,7 +72,7 @@ NameCountryComponent.render({
 The code above will render something like:
 
 ```html
-<h1>Hi, I'm John from the USA.</h1>
+<h1>Hi, I'm Christian from the Philippines.</h1>
 ```
 
 [jxComponent](#jxcomponent) uses the three render types `replaceWith`, `append` and `html` from the <a target="_blank" href="https://jquery.com">jQuery</a> library. The `renderType` will default to `replaceWith` if nothing was specified.
@@ -118,7 +118,7 @@ The code above will render something like:
 </div>
 ```
 
-[jxComponent](#jxcomponent) requires having `[{{ styleId }}]` at the beginning of the selectors in order to accurately style the component. Failing to use `[{{ styleId }}]` will cause the component style to not be applied. `[{{ styleId }}]` is a unique reference id to the root element of the component's template.
+[jxComponent](#jxcomponent) requires having `[{{ styleId }}]` at the beginning of the selectors in order to accurately style the component. Failing to use `[{{ styleId }}]` will cause the component style to not be applied. `[{{ styleId }}]` is a unique reference id to the root element of the component.
 
 ### Data Binding
 
@@ -191,8 +191,8 @@ The code above will render something like:
 </div>
 ```
 
-Notice that the other `<h3>` elements were not rendered and only the `<h3>` element with the attribute `data-if="os==='windows'"` was rendered, that is because `data-if` attribute will only render the element if the condition on the attribute is `true`.
-If you only want to hide the other elements [jxComponent](#jxcomponent) has another attribute called `data-show`. The `data-show` attribute will show the element if the condition is `true` and hides it when it was `false`.
+Notice that the other `<h3>` elements were not rendered and only the `<h3>` element with the attribute `data-if="os==='windows'"` was rendered, that's because `data-if` attribute will only render the element if the condition on the attribute is `true`.
+If you only want to hide the other elements [jxComponent](#jxcomponent) has another attribute called `data-show`. The `data-show` attribute will show the element if the condition is `true` and hides it when it was `false`(Note: the element was still rendered.)
 
 ### List Rendering
 
@@ -262,9 +262,9 @@ If there are no items it will render like:
 </div>
 ```
 
-At the code above the value `item in items` of `data-list` will cause the [jxComponent](#jxcomponent) to iterate over the `items` array of the parent component and pass the data `item` to the child component `ListItem`. The expression `{ name, price }` on `data-bind` attribute is equivalent to `{ name, price } = item;`. You can also shorten that to `data-bind="item"` but the text interpolation will become like this `{{ item.name }}` instead of just `{{ name }}` on `ListItem` component.
+At the code above the value `item in items` of `data-list` will cause the [jxComponent](#jxcomponent) to iterate over the `items` array of the parent component `ProductList` and pass the data `item` to the child component `ListItem`. The expression `{ name, price }` on `data-bind` attribute is equivalent to `{ name, price } = item;`. You can also shorten that to `data-bind="item"` but the text interpolation will become like this `{{ item.name }}` instead of just `{{ name }}` on `ListItem` component template.
 
-If you want to show the index of the item just use `{{ index }}`. But be careful not to pass a data with a name `index` on the `ListItem` component, because [jxComponent](#jxcomponent) automatically set the `index`'s value to be the `index` of the current array item.
+If you want to show the index of the item just use `{{ index }}`. But be careful not to pass a data with a name `index` on the `ListItem` component, because [jxComponent](#jxcomponent) automatically pass the `index` data into the child component.
 
 ### Event Handling
 
@@ -282,7 +282,7 @@ const ClickMeComponent = ComponentConstructor.create({
 })
 ```
 
-The code above will render a button that when clicked will popup an alert message saying `"You clicked me!"` and will console the element who triggered the click event.
+The code above will render a button, that when clicked will popup an alert message saying `"You clicked me!"` and will console the element who triggered the click event.
 [jxComponent](#jxcomponent) adds event listeners to the components by using the `on-[EventType]="[FunctionName]"` pattern. So adding `on-click="clickAlert"` attribute on a button is equivalent to `button.addEventListener("click", events.clickAlert)`.
 
 ### Methods
@@ -313,7 +313,7 @@ const SayAgentNameComponent = ComponentConstructor.create({
 })
 ```
 
-The code above will render a button that when clicked will popup an alert message saying `"Agent name: James Bond"`.
+The code above will render a button, that when clicked will popup an alert message saying `"Agent name: James Bond"`.
 [jxComponent](#jxcomponent) uses the `methods` property to contain helpful functions for your component which is accessible by calling `this.methods`.
 
 ### DOM Referencing
@@ -364,7 +364,7 @@ var ColoredBoxesComponent = ComponentConstructor.create({
 })
 ```
 
-The code above will render six boxes with similar sizes and two buttons. Clicking the first button will change the color of boxes with even numbers to red. While clicking the second button will change the color of boxes with odd numbers to green.
+The code above will render six boxes with similar sizes and two buttons below the six boxes. Clicking the first button will change the color of the boxes marked with even numbers to red. While clicking the second button will change the color of the boxes marked with odd numbers to green.
 [jxComponent](#jxcomponent) uses the value of the `domref` attribute to reference a DOM element. Adding `domref="box1"` on an element is equivalent to `$('[domref="box1"]')`. [jxComponent](#jxcomponent) stores the value of `$('[domref="box1"]')` to `this.$refs.$box1`.
 
 ### Life cycle hooks
@@ -550,7 +550,7 @@ const TodoList = ComponentConstructor.create({
 })
 ```
 
-The code above demonstrates how to dynamically render child components. The important thing to notice here is the use of `createInstance` method. In the line `let todoItem = TodoItem.createInstance(this);` the `todoItem` variable is being assigned a copy of `TodoItem` component with `TodoList` as it's parent component which is the `this` in the line `let todoItem = TodoItem.createInstance(this);`. It's also worth nothing the line `todoItem.setData(todo)` which sets the `todo` variable as the data of `todoItem`. It's the equivalent of using the `data-bind` attribute.
+The code above demonstrates how to dynamically render child components. The important thing to notice here is the use of `createInstance` method. In the line `let todoItem = TodoItem.createInstance(this);` the `todoItem` variable is being assigned a copy of `TodoItem` component with `TodoList` as it's parent component which is the `this` in the line `let todoItem = TodoItem.createInstance(this);`(**Note:** It's very important to use `createInstance` here and not just directly use the `TodoItem` so that copies of `TodoItem` component is created.) It's also worth nothing the use of `todoItem.setData(todo)` which sets the `todo` variable as the data of `todoItem`. It's the equivalent of using `data-bind="todo"` attribute.
 
 <br>
 
