@@ -2,12 +2,12 @@
 
 A component based javascript framework using <a target="_blank" href="https://jquery.com">jQuery</a> library.
 
-### [Features](#features) | [Tips and Tricks](#tips-and-tricks) | [Caveats](#caveats) | [Sample Projects](#sample-projects) | [Github Repo](#github-repository) | [Report Issues](#report-issues)
+[Features](#features) | [Tips and Tricks](#tips-and-tricks) | [Caveats](#caveats) | [Sample Projects](#sample-projects) | [Github Repo](#github-repository) | [Report Issues](#report-issues)
 
 ## Download
 
- - <a target="_blank" href="https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.js">For development - CDN (from jsdelivr.com)</a>
- - <a target="_blank" href="https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.min.js">For production - CDN</a>
+- <a target="_blank" href="https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.js">For development - CDN (from jsdelivr.com)</a>
+- <a target="_blank" href="https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.min.js">For production - CDN</a>
 
 ## Installation
 
@@ -64,7 +64,7 @@ const NameCountryComponent = ComponentConstructor.create({
 
 NameCountryComponent.render({
   targetElement: document.getElementById("container"),
-  // renderType: 'replaceWith' 
+  // renderType: 'replaceWith'
   // (Note: 'replaceWith' is the default value of renderType)
 })
 ```
@@ -142,7 +142,7 @@ const FatherComponent = ComponentConstructor.create({
   template: `
     <div>
       <p><strong>Father: </strong> Hi I'm {{ name }} I have a son named {{ son.name }}.</p>
-      <son-component 
+      <son-component
         data-bind="{ name, age } = son"
       ></son-component>
     </div>
@@ -221,9 +221,9 @@ const PriceList = ComponentConstructor.create({
   template: `
         <div>
             <h1>Item Price List</h1>
-            <list-item 
-              data-if="items.length" 
-              data-list="item in items" 
+            <list-item
+              data-if="items.length"
+              data-list="item in items"
               data-bind="{ name, price }"
             ></list-item>
             <no-items data-if="!items.length"></no-items>
@@ -399,7 +399,7 @@ const MessagesComponent = ComponentConstructor.create({
 On the code above the `onInit` will be the first to execute followed by `beforeRender` and then `afterRender`.
 Unlike Vue or React, [jxComponent](#jxcomponent) only have these three life cycle hooks `onInit`, `beforeRender` and `afterRender`.
 
-#### Recommended usage for jxComponent's life cycle hooks:
+#### Recommended usage for jxComponent's life cycle hooks
 
 - `onInit` - rendering .gif image loaders.
 - `beforeRender` - fetching data from the server.
@@ -440,7 +440,9 @@ const SonComponent = ComponentConstructor.create({
 
       console.log(`Hi I'm ${name}.`);
       console.log(`My father is Mr. ${grandFather.data.name}.`);
+      father.methods.introduce();
       console.log(`And my grandfather is Mr. ${father.data.name}.`);
+      grandFather.methods.introduce();
     }
   },
 })
@@ -455,6 +457,13 @@ const FatherComponent = ComponentConstructor.create({
       <son-component></son-component>
     </div>
   `,
+  methods: {
+    introduce() {
+      let { name } = this.data;
+
+      console.log(`Hi I'm his father ${name}.`);
+    }
+  },
   components: {
     SonComponent,
   }
@@ -469,7 +478,14 @@ const GrandFatherComponent = ComponentConstructor.create({
       <h3>I'm the grandfather component</h3>
       <father-component></father-component>
     </div>
-  `
+  `,
+  methods: {
+    introduce() {
+      let { name } = this.data;
+
+      console.log(`Hi I'm his grandfather ${name}.`);
+    }
+  },
   components: {
     FatherComponent,
   }
@@ -478,9 +494,9 @@ const GrandFatherComponent = ComponentConstructor.create({
 
 The code above demonstrates how you can access the parent component by calling `this.parentComponent()`. And by adding a parameter in `this.parentComponent(1)` you can access the grandparent component, this feature makes it easy to relay messages to the top-level component. Even if the component relaying the message is nested five levels inside the top-level component you can just call `this.parentComponent(4)` in that component to access the top-level component.
 
-**Note:** You can use `console.log(this.hierarchy().join(" > "))` to check how many levels the component is nested inside the top-level component. 
+**Note:** You can use `console.log(this.hierarchy().join(" > "))` to check how many levels the component is nested inside the top-level component.
 
-### Dynamically Rendering Child Components.
+### Dynamically Rendering Child Components
 
 ```javascript
 const TodoItem = ComponentConstructor.create({
@@ -560,14 +576,15 @@ The code above demonstrates how to dynamically render child components. The impo
 
 ## Caveats
 
- * Always add a closing tag to your component (e.g. `<list-item></list-item>`).
- * Do not use component tags(e.g. `<list-item></list-item>`) inside a `<ul>` element. The same goes for `<table>`, `<thead>`, `<tbody>`, `<tfoot>` and `<tr>` elements. Doing so will result in the component being rendered outside of that element. The workaround here is to use the `component-alias` attribute. You can use it in `<li>` element like this `<ul><li component-alias="list-item"></li><ul>`. 
- * All elements with the `component-alias` attribute are treated by [jxComponent](#jxcomponent) as a component tag.
+- Always add a closing tag to your component (e.g. `<list-item></list-item>`).
+- Do not use component tags(e.g. `<list-item></list-item>`) inside a `<ul>` element. The same goes for `<table>`, `<thead>`, `<tbody>`, `<tfoot>` and `<tr>` elements. Doing so will result in the component being rendered outside of that element. The workaround here is to use the `component-alias` attribute. You can use it in `<li>` element like this `<ul><li component-alias="list-item"></li><ul>`.
+- All elements with the `component-alias` attribute are treated by [jxComponent](#jxcomponent) as a component tag.
 
 ## Sample Projects
 
 - [Click Counter](https://codepen.io/elioth-coder/pen/LYpgbPW) - counts the number of times the button is clicked.
 - [Todo List](https://codepen.io/elioth-coder/pen/dyYgRBy) - making a list of things to do.
+- [Item Price List](https://codepen.io/elioth-coder/pen/rNOEqBW) - making a list of item prices.
 
 ## Browser Support
 
@@ -584,10 +601,3 @@ All es6 compliant browsers.
 ## NPM Registry
 
 [https://www.npmjs.com/package/jx-component](https://www.npmjs.com/package/jx-component)
-
-<br>
-<hr>
-
-### [Home](#jxcomponent) | [Download](#download) | [Installation](#installation) | [Features](#features) | [Tips and Tricks](#tips-and-tricks)
-
-<hr>
