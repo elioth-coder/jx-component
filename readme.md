@@ -113,7 +113,7 @@ The code above will render something like:
     text-align: center;
   }
 </style>
-<div id="red-box">
+<div class="red-box">
   <h1>Hi, I'm a red box.</h1>
 </div>
 ```
