@@ -1,13 +1,13 @@
 # jxComponent
 
-A component based javascript framework using <a target="_blank" href="https://jquery.com">jQuery</a> library.
+A component based javascript framework using [jQuery](https://jquery.com) library.
 
 [Features](#features) | [Tips and Tricks](#tips-and-tricks) | [Caveats](#caveats) | [Sample Projects](#sample-projects) | [Github Repo](#github-repository) | [Report Issues](#report-issues)
 
 ## Download
 
-- <a target="_blank" href="https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.js">For development - CDN (from jsdelivr.com)</a>
-- <a target="_blank" href="https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.min.js">For production - CDN</a>
+- [For development - CDN (from jsdelivr.com)](https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.js)
+- [For production - CDN](https://cdn.jsdelivr.net/gh/elioth-coder/jx-component/dist/jx-component.min.js)
 
 ## Installation
 
@@ -33,9 +33,9 @@ const { ComponentConstructor } = jxComponent;
 const { ComponentConstructor } = require("jx-component");
 ```
 
-## Why jxComponent?
+## Why jxComponent
 
-[jxComponent](#jxcomponent) borrows the power of <a target="_blank" href="https://jquery.com">jQuery</a> library and adapted some of <a target="_blank" href="https://vuejs.org">Vue</a>'s framework design. It does not adapt <a target="_blank" href="https://vuejs.org">Vue</a>'s reactivity feature though, so that developers can have more control on how to update the DOM using the <a target="_blank" href="https://jquery.com">jQuery</a> library.
+[jxComponent](#jxcomponent) borrows the power of [jQuery](https://jquery.com) library and adapted some of [Vue](https://vuejs.org)'s framework design. It does not adapt [Vue](https://vuejs.org)'s reactivity feature though, so that developers can have more control on how to update the DOM using the [jQuery](https://jquery.com) library.
 
 ## Features
 
@@ -75,7 +75,7 @@ The code above will render something like:
 <h1>Hi, I'm Christian from the Philippines.</h1>
 ```
 
-[jxComponent](#jxcomponent) uses the three render types `replaceWith`, `append` and `html` from the <a target="_blank" href="https://jquery.com">jQuery</a> library. The `renderType` will default to `replaceWith` if nothing was specified.
+[jxComponent](#jxcomponent) uses the three render types `replaceWith`, `append` and `html` from the [jQuery](https://jquery.com) library. The `renderType` will default to `replaceWith` if nothing was specified.
 At the sample code above [jxComponent](#jxcomponent) finds the target element `document.getElementById('container')` and then replace that element.
 
 ### Component Styling
@@ -405,11 +405,7 @@ Unlike Vue or React, [jxComponent](#jxcomponent) only have these three life cycl
 - `beforeRender` - fetching data from the server.
 - `afterRender` - rendering other components not related to the component.
 
-<br>
-
 [ [Back to Top](#jxcomponent) | [Features](#features) ]
-
-<hr>
 
 ## Tips and Tricks
 
@@ -568,11 +564,60 @@ const TodoList = ComponentConstructor.create({
 
 The code above demonstrates how to dynamically render child components. The important thing to notice here is the use of `createInstance` method. In the line `let todoItem = TodoItem.createInstance(this);` the `todoItem` variable is being assigned a copy of `TodoItem` component with `TodoList` as it's parent component which is the `this` in the line `let todoItem = TodoItem.createInstance(this);`(**Note:** It's very important to use `createInstance` here and not just directly use the `TodoItem` so that copies of `TodoItem` component is created.) It's also worth nothing the use of `todoItem.setData(todo)` which sets the `todo` variable as the data of `todoItem`. It's the equivalent of using `data-bind="todo"` attribute.
 
-<br>
+### Optimizing Search Using the `debounce` Attribute
+
+```javascript
+const PetSearcher = ComponentConstructor.create({
+    data: {
+        pets: [
+          'Dog',
+          'Cat',
+          'Mouse',
+          'Hamster',
+          'Rabbit',
+          'Bird',
+          'Pig',
+          'Chicken',
+        ],
+    },
+    template: `
+    <div>
+      <h1>Search Pet</h1>
+      <div>
+        <input id="search" domref="search" type="text"
+            on-keyup="search"
+            debounce="keyup,1000"
+            placeholder="Enter the pet to search"
+        />
+        <hr>
+        <p>Check the results on your console.</p>
+      </div>
+    </div>  
+    `,
+    events: {
+      search(event) {
+        let { pets } = this.data;
+
+        // Note: You must get FuzzySearch.js for this code to work.
+        // Here is the link to it's github repository https://github.com/wouter2203/fuzzy-search
+        const searcher = new FuzzySearch(pets);
+        const results = searcher.search(event.target.value); // event.target is the input element.
+
+        console.log(results);
+      },
+    },
+})
+
+PetSearcher.render({
+    targetElement: document.getElementById('container'),
+})
+```
+
+The code above demonstrates how to optimize your search using the `debounce` attribute. The `debounce` attribute requires two parameters (ex. `debounce="keyup,1000"`) the first parameter(`keyup`) is the type of the event while the second parameter(`1000`) is the number of milliseconds to wait (Note. `1000 is equivalent to 1 second`). The advantage of using the `debounce` attribute is that it lessens the number of times the system will search(or make an HTTP request in the server.), by only searching after the user stopped typing for 1 second, instead of searching after every keystroke (In case of the code above.)
+
+(Note: Normally the `event` parameter in the `search(event)` is not required and you can just do `search()` and you'll still have access for the [Event](https://dom.spec.whatwg.org/#dom-event-event) object. But in the case where you are using the `debounce` attribute it is required to put the `event` parameter to have an access to the [Event](https://dom.spec.whatwg.org/#dom-event-event) object.
 
 [ [Back to Top](#jxcomponent) | [Tips and Tricks](#tips-and-tricks) ]
-
-<hr>
 
 ## Caveats
 
@@ -585,6 +630,7 @@ The code above demonstrates how to dynamically render child components. The impo
 - [Click Counter](https://codepen.io/elioth-coder/pen/LYpgbPW) - counts the number of times the button is clicked.
 - [Todo List](https://codepen.io/elioth-coder/pen/dyYgRBy) - making a list of things to do.
 - [Item Price List](https://codepen.io/elioth-coder/pen/rNOEqBW) - making a list of item prices.
+- [Optimized Search](https://codepen.io/elioth-coder/pen/dyGKBem) - doing an optimized search using the `debounce` attribute.
 
 ## Browser Support
 
@@ -596,7 +642,7 @@ All es6 compliant browsers.
 
 ## Report Issues
 
-<a target="_blank" href="https://github.com/elioth-coder/jx-component/issues">https://github.com/elioth-coder/jx-component/issues</a>
+[https://github.com/elioth-coder/jx-component/issues](https://github.com/elioth-coder/jx-component/issues)
 
 ## NPM Registry
 

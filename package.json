@@ -20,7 +20,8 @@
   "author": "elioth.coder@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

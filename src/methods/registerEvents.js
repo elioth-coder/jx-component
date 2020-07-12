@@ -1,3 +1,5 @@
+const debounce = require('lodash/debounce');
+
 const registerEvents = function() {
     let { id, events } = this;
     let $self = $(`#${id}`);
@@ -13,11 +15,27 @@ const registerEvents = function() {
             let element = $(elements[i]);
             let fnName = element.attr(`on-${eventName}`);
             let fn = events[fnName];
+            let debounceAttribute = element.attr('debounce') + '';
+            let [ evt, wait ] = debounceAttribute.split(",");
+                evt = evt + ''.trim();
+                wait = parseInt(wait + ''.trim());
+                wait = (isNaN(wait) || wait < 0) ? 0 : wait;
             
             if(typeof fn !== 'function') {
                 continue;
             }					
-            element.removeAttr(`on-${eventName}`);			
+            element.removeAttr(`on-${eventName}`);	
+            element.removeAttr('debounce');	
+
+            if(evt == eventName && wait > 0 ) {
+                fn = debounce(fn, wait, { 
+                    leading: false, 
+                    trailing: true 
+                });
+                element[0].addEventListener(eventName, fn.bind(this));										
+
+                continue;
+            }		
             element[0].addEventListener(eventName, fn.bind(this));										
         }				
     }.bind(this);
