@@ -15,7 +15,10 @@
   "keywords": [
     "jx-component",
     "jquery",
-    "component"
+    "component",
+    "vue",
+    "angular",
+    "react"
   ],
   "author": "elioth.coder@gmail.com",
   "license": "ISC",
