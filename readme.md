@@ -492,7 +492,7 @@ The code above demonstrates how you can access the parent component by calling `
 
 **Note:** You can use `console.log(this.hierarchy().join(" > "))` to check how many levels the component is nested inside the top-level component.
 
-### Dynamically Rendering Child Components
+### Refreshing the list when the data updates
 
 ```javascript
 const TodoItem = ComponentConstructor.create({
@@ -501,6 +501,14 @@ const TodoItem = ComponentConstructor.create({
       <td>{{ index }}.</td>
       <td>{{ name }}</td>
       <td><button>&times;</button></td>
+    </tr>
+    `,
+})
+
+const NoItems = ComponentConstructor.create({
+  template: `
+    <tr>
+      <td colspan="3" style="text-align: center;">No items found.</td>
     </tr>
     `,
 })
@@ -516,29 +524,26 @@ const TodoList = ComponentConstructor.create({
         <thead>
           <tr><th>ID</th><th>Todo Items</th><th>Delete</th></tr>
         </thead>
-        <tbody domref="tbody"></tbody>
+        <tbody domref="tbody">
+          <todo-item
+            data-if="todos.length"
+            data-list="todo in todos"
+            data-bind="{ id, name }"
+          ></todo-item>
+          <no-items
+            data-if="!todos.length"
+          ></no-items>
+        </tbody>
       </table>
     </div>
     `,
   methods: {
     renderTodos() {
-      let { TodoItem } = this.components;
+      let { TodoItem, NoItems } = this.components;
       let { todos } = this.data;
       let { $tbody } = this.$refs;
 
-      $tbody.empty();
-
-      for (let i = 0; i < todos.length; i++) {
-        let todo = todos[i];
-        todo.index = i + 1;
-        let todoItem = TodoItem.createInstance(this);
-        todoItem.setData(todo);
-
-        todoItem.render({
-          targetElement: $tbody,
-          renderType: "append",
-        });
-      }
+      this.refreshRenderedList($tbody, todos, TodoItem, NoItems)
     },
   },
   lifeCycle: {
@@ -558,11 +563,12 @@ const TodoList = ComponentConstructor.create({
   },
   components: {
     TodoItem,
+    NoItems,
   },
 })
 ```
 
-The code above demonstrates how to dynamically render child components. The important thing to notice here is the use of `createInstance` method. In the line `let todoItem = TodoItem.createInstance(this);` the `todoItem` variable is being assigned a copy of `TodoItem` component with `TodoList` as it's parent component which is the `this` in the line `let todoItem = TodoItem.createInstance(this);`(**Note:** It's very important to use `createInstance` here and not just directly use the `TodoItem` so that copies of `TodoItem` component is created.) It's also worth nothing the use of `todoItem.setData(todo)` which sets the `todo` variable as the data of `todoItem`. It's the equivalent of using `data-bind="todo"` attribute.
+The code above demonstrates how to refresh the list when the data updates using the `this.refreshRenderedList($tbody, todos, TodoItem, Noitems);` method. The first parameter `$tbody` is the target element that the `jQuery` will update. The second parameter `todos` is the updated data to be used on refreshing the list. The third parameter `TodoItem` is the list item component to used when rendering list of data. The fourth parameter `NoItems` is optional it will be the component to be rendered when the data is just an empty array.
 
 ### Optimizing Search Using the `debounce` Attribute
 

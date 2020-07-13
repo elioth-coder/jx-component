@@ -10,6 +10,7 @@ const {
     setAttributes,
     renderSingularComponent,
     renderListComponent,
+    refreshRenderedList,
     renderComponent,
     replaceComponentTags,
     renderComponents,
@@ -75,6 +76,7 @@ class Component {
     setAttributes = setAttributes;
     renderSingularComponent = renderSingularComponent;
     renderListComponent = renderListComponent;
+    refreshRenderedList = refreshRenderedList;
     renderComponent = renderComponent;
     replaceComponentTags = replaceComponentTags;
     renderComponents = renderComponents;

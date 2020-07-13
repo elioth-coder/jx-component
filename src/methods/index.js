@@ -8,6 +8,7 @@ const setId = require('./setId.js');
 const setAttributes = require('./setAttributes.js');
 const renderSingularComponent = require('./renderSingularComponent.js');
 const renderListComponent = require('./renderListComponent.js');
+const refreshRenderedList = require('./refreshRenderedList.js');
 const renderComponent = require('./renderComponent.js');
 const replaceComponentTags = require('./replaceComponentTags.js');
 const renderComponents = require('./renderComponents.js');
@@ -43,6 +44,7 @@ module.exports = {
     setAttributes,
     renderSingularComponent,
     renderListComponent,
+    refreshRenderedList,
     renderComponent,
     replaceComponentTags,
     renderComponents,
