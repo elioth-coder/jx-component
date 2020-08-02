@@ -22,7 +22,6 @@ const ComponentConstructor = {
 			parent: null,
 		};
 		config = SetDefaultConfig(defaultConfig, config);
-		let { name } = config;
 		
 		return new Component(config);
 	},
